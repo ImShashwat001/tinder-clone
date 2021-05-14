@@ -1,24 +1,51 @@
 import React, { useState } from 'react';
+import TinderCard from 'react-tinder-card';
 import "./TinderCards.css";
 
 function TinderCards() {
-    const [people, setState] = useState([
+    const [people, setPeople] = useState([
         {
-            name: 'Elon Musk',
-            url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.forbes.com%2Fprofile%2Felon-musk%2F&psig=AOvVaw3TvEUG3VT3cPyi6WsABPfI&ust=1620071836113000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLCSv4Xkq_ACFQAAAAAdAAAAABAD"
+            name: "Elon Musk",
+            url: "https://upload.wikimedia.org/wikipedia/commons/8/85/Elon_Musk_Royal_Society_%28crop1%29.jpg"
         },
         {
-            name: 'Jeff Bezos',
-            url: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.forbes.com%2Fprofile%2Fjeff-bezos%2F&psig=AOvVaw1QzZZi8IMpL4Q2bto7D0uV&ust=1620072235761000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCKjpxsXlq_ACFQAAAAAdAAAAABAD"
+            name: "Jeff Bezos",
+            url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Jeff_Bezos_at_Amazon_Spheres_Grand_Opening_in_Seattle_-_2018_%2839074799225%29_%28cropped%29.jpg/800px-Jeff_Bezos_at_Amazon_Spheres_Grand_Opening_in_Seattle_-_2018_%2839074799225%29_%28cropped%29.jpg"
         }
     ]);
+
+    const swiped = (direction, nameToDelete) => {
+        console.log("removing: " + nameToDelete);
+    };
+
+    const outOfFrame = (name) => {
+        console.log(name + " left the screen!");
+    }
+
     return (
         <div className="tinderCards">
-            {
-                people.map((person) => (
-                    <h1>{person.name}</h1>
-                ))
+            <div className="tinderCards__cardContainer">
+
+            { people.map((person) => (
+                <TinderCard
+                    className="swipe"
+                    key={person.name}
+                    preventSwipe={["up", "down"]}
+                    onSwipe={(dir) => swiped(dir, person.name)}
+                    onCardLeftScreen = {() => outOfFrame(person.name)}
+                    >
+                        <div 
+                            style={{backgroundImage: `url(${person.url})`}}
+                            className="card">
+                            <h3>{person.name}</h3>
+                        </div>
+
+                </TinderCard>
+            ))
             }
+
+            </div>
+            
         </div>
     )
 }
